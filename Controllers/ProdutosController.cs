@@ -1,5 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ListaDeCompras.Data;
 using ListaDeCompras.Models;
@@ -127,6 +126,22 @@ namespace ListaDeCompras.Controllers
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost("comprado/{id:int}")]
+        public async Task<IActionResult> ToggleComprado(int id)
+        {
+            var produto = await _context.Produtos.FindAsync(id);
+
+            if (produto == null)
+            {
+                return Json(new { success = false, message = "Produto não encontrado." });
+            }
+
+            produto.Comprado = !produto.Comprado;
+            await _context.SaveChangesAsync();
+
+            return Json(new { success = true, comprado = produto.Comprado });
         }
 
         private bool ProdutoExists(int id)

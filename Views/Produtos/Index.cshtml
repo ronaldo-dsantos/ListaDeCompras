@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<ListaDeCompras.Models.Produto>
 
 @{
-    ViewData["Title"] = "Lista de Compras";
+    ViewData["Title"] = "Minha Lista";
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -28,26 +28,43 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Item)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descricao)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantidade)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Comprado)
-            </td>
-            <td>
-                <a asp-action="Details" class="btn btn-warning" asp-route-id="@item.Id"><span class="fa fa-search"></span></a>
-                <a asp-action="Edit" class="btn btn-info" asp-route-id="@item.Id"><span class="fa fa-pencil-alt"></span></a>
-                <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.Id"><span class="fa fa-trash"></span></a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Item)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descricao)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantidade)
+                </td>
+                 <td>
+                    <input type="checkbox" onclick="toggleComprado(@item.Id)" @(item.Comprado ? "checked" : "") />
+                </td>
+                <td>
+                    <a asp-action="Details" class="btn btn-warning" asp-route-id="@item.Id"><span class="fa fa-search"></span></a>
+                    <a asp-action="Edit" class="btn btn-info" asp-route-id="@item.Id"><span class="fa fa-pencil-alt"></span></a>
+                    <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.Id"><span class="fa fa-trash"></span></a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+<script>
+    function toggleComprado(id) {
+        $.ajax({
+            url: '/minha-lista/comprado/' + id,
+            type: 'POST',
+            success: function (response) {
+                if (!response.success) {
+                    alert('Erro ao atualizar status do produto.')
+                }
+            },
+            error: function () {
+                alert('Erro ao processar a solicitação.');
+            }
+        });
+    }
+</script>

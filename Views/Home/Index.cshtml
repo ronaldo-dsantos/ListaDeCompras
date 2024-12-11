@@ -2,7 +2,12 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Lista de Compras</h1>
-    <p>Adicione itens a sua <a asp-area="" asp-controller="Produtos" asp-action="Create">Lista de Compras</a>.</p>
+<div class="jumbotron text-center">
+    <h1 class="display-4">Bem-vindo à Lista de Compras!</h1>
+    <p class="lead">Organize suas compras de forma prática e eficiente.</p>
+    <hr class="my-4">
+    <p>Adicione itens à sua lista, marque como comprados e acompanhe suas necessidades.</p>
+    <a class="btn btn-primary btn-lg" href="@Url.Action("Index", "Produtos")" role="button" aria-label="Ver minha lista de compras">
+        Ver minha lista de compras
+    </a>
 </div>
